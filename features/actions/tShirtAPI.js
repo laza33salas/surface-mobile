@@ -10,6 +10,7 @@ const tShirt = createApi({
 
     endpoints: (builder) => ({
         GetTShirt: builder.query({ query: (params) => `/tshirts/${params}` })
+
     }),
 
 })
