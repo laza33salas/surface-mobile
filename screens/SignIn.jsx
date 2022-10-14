@@ -1,12 +1,22 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import {
+  View,
+  Text,
+  ScrollView,
+  ImageBackground,
+  StyleSheet,
+  Button,
+  Image,
+} from "react-native";
+import React from "react";
+import SignInForm from "../components/SignIn/SignInForm";
 
-const SignIn = () => {
+export default function SignIn() {
   return (
-    <View>
-      <Text>SignIn</Text>
-    </View>
-  )
+    <ScrollView>
+      <Text>Sign In with:</Text>
+      <SignInForm />
+    </ScrollView>
+  );
 }
 
-export default SignIn
+const styles = StyleSheet.create({});

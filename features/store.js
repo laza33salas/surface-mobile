@@ -1,28 +1,17 @@
-import { configureStore } from '@reduxjs/toolkit'
+import { configureStore } from "@reduxjs/toolkit";
 //apis
-import tShirt from './actions/tShirtAPI'
-import authApi from './actions/authAPI'
+import tShirt from "./actions/tShirtAPI";
+import authApi from "./actions/authAPI";
 //reducers
 
-
-
 const store = configureStore({
-    reducer: {
+  reducer: {
+    [tShirt.reducerPath]: tShirt.reducer,
+    [authApi.reducerPath]: authApi.reducer,
+  },
 
-        [tShirt.reducerPath]: tShirt.reducer,
-        [authApi.reducerPath]: authApi.reducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(tShirt.middleware, authApi.middleware),
+});
 
-    },
-
-    middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware()
-            .concat(
-                tShirt.middleware,
-                authApi.middleware
-            )
-
-})
-
-
-
-export default store
+export default store;

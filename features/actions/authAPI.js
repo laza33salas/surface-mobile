@@ -1,46 +1,42 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
 
 const authApi = createApi({
-    reducerPath: 'authAPI',
+  reducerPath: "authAPI",
 
-    baseQuery: fetchBaseQuery({
-        baseUrl: 'http://localhost:4000/auth'
+  baseQuery: fetchBaseQuery({
+    baseUrl: "http://localhost:4000/auth",
+  }),
+
+  endpoints: (builder) => ({
+    SignIn: builder.mutation({
+      query: (payload) => ({
+        url: "/signin",
+        method: "POST",
+        body: payload,
+      }),
     }),
 
-    endpoints: (builder) => ({
+    AddUserSignUp: builder.mutation({
+      query: (payload) => ({
+        url: "/signup",
+        method: "POST",
+        body: payload,
+      }),
+    }),
 
-        SignIn: builder.mutation({
-            query: (payload) => ({
-                url: '/signin',
-                method: 'POST',
-                body: payload,
-            }),
-        }),
+    SignOut: builder.mutation({
+      query: (payload) => ({
+        url: "/signout",
+        method: "POST",
+        body: payload,
+      }),
+    }),
+  }),
+});
 
-
-        AddUserSignUp: builder.mutation({
-            query: (payload) => ({
-                url: '/signup',
-                method: 'POST',
-                body: payload
-            })
-        }),
-
-        SignOut: builder.mutation({
-            query: (payload) => ({
-                url: '/signout',
-                method: 'POST',
-                body: payload
-            })
-        }),
-
-    })
-
-})
-
-export default authApi
+export default authApi;
 export const {
-    useSignInMutation,
-    useAddUserSignUpMutation,
-    useSignOutMutation
-} = authApi
+  useSignInMutation,
+  useAddUserSignUpMutation,
+  useSignOutMutation,
+} = authApi;

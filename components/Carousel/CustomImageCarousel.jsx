@@ -1,80 +1,69 @@
-import { 
-  StyleSheet,
-  View,
-  ScrollView,
-  Image,
-  useWindowDimensions,  
-} from 'react-native'
-import React, { useState } from 'react'
+import { StyleSheet, View, Image, useWindowDimensions } from "react-native";
+import React, { useState } from "react";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   useAnimatedScrollHandler,
   interpolate,
-  
-} from 'react-native-reanimated';
+} from "react-native-reanimated";
 
-export default function CustomImageCarousel({data}) {
+export default function CustomImageCarousel({ data }) {
   const [newData] = useState([
-    
-    {key: ' spacer-left '}, 
+    { key: " spacer-left " },
     ...data,
-    {key: 'spacer-right'}
-  ])
-  const {width} = useWindowDimensions(); 
+    { key: "spacer-right" },
+  ]);
+  const { width } = useWindowDimensions();
   const SIZE = width * 0.7;
   const SPACER = (width - SIZE) / 2;
-const x = useSharedValue(0)
-const onScroll = useAnimatedScrollHandler({
-  onScroll: event =>{
-    x.value = event.contentOffset.x
-  }
-})
+  const x = useSharedValue(0);
+  const onScroll = useAnimatedScrollHandler({
+    onScroll: (event) => {
+      x.value = event.contentOffset.x;
+    },
+  });
   return (
-    <Animated.ScrollView 
-    horizontal 
-    showsHorizontalScrollIndicator={false}
-    bounces={false}
-    scrollEventThrottle={16}
-    snapToInterval={SIZE}
-    decelerationRate='fast'
-    onScroll={onScroll}
+    <Animated.ScrollView
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      bounces={false}
+      scrollEventThrottle={16}
+      snapToInterval={SIZE}
+      decelerationRate="fast"
+      onScroll={onScroll}
     >
-     {newData.map((item,index) =>{
-      
-      const style = useAnimatedStyle(() =>{
-        const scale = interpolate(
-          x.value,
-          [(index - 2)*SIZE, (index - 1) * SIZE, index * SIZE], 
-          [0.8, 1, 0.8]
+      {newData.map((item, index) => {
+        const style = useAnimatedStyle(() => {
+          const scale = interpolate(
+            x.value,
+            [(index - 2) * SIZE, (index - 1) * SIZE, index * SIZE],
+            [0.8, 1, 0.8]
+          );
+          return { scale };
+        });
+        if (!item.image) {
+          return <View style={{ width: SPACER }} key={index} />;
+        }
+        return (
+          <View style={{ width: SIZE }} key={index}>
+            <Animated.View style={styles.imageContainer}>
+              <Image source={item.image} style={styles.image} />
+            </Animated.View>
+          </View>
         );
-        return  {scale}
-        
-      })
-      if (!item.image) {
-        return <View  style={{width: SPACER}} key={index}/>
-      }
-      return(
-        <View style={{width: SIZE}} key={index}>
-          <Animated.View style={styles.imageContainer}>
-            <Image source={item.image} style={styles.image}/>
-          </Animated.View>
-        </View>
-      )
-     })}
+      })}
     </Animated.ScrollView>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
-  imageContainer :{
+  imageContainer: {
     borderRadius: 34,
-    overflow: 'hidden',
+    overflow: "hidden",
   },
-  image:{
-    width: '100%',
+  image: {
+    width: "100%",
     height: undefined,
     aspectRatio: 1,
-  }
-})
-
+  },
+});
